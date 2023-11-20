@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq6f8f420fc78"]
+
+[ext_resource type="Script" path="res://statue.gd" id="1_0m66e"]
+[ext_resource type="Texture2D" uid="uid://j22r3bff43a1" path="res://assets/entities/statue.png" id="1_n2of2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wt372"]
+size = Vector2(10, 6)
+
+[node name="Statue" type="RigidBody2D"]
+texture_filter = 1
+collision_layer = 3
+collision_mask = 5
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+script = ExtResource("1_0m66e")
+metadata/_edit_group_ = true
+
+[node name="collision_shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wt372")
+
+[node name="sprite_sheet" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("1_n2of2")
+hframes = 5
