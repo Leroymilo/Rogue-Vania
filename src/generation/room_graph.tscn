@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://t7ntl8biyg4c"]
+
+[ext_resource type="Script" path="res://src/generation/room_graph.gd" id="1_eegge"]
+
+[node name="room_graph" type="Node"]
+script = ExtResource("1_eegge")
+
+[node name="edges" type="Node" parent="."]

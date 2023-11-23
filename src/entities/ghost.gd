@@ -6,10 +6,12 @@ const dirs: Array[Vector2] = [
 @export var facing = Vector2.DOWN : set = set_facing
 @export var awake = true
 var dir = Vector2.ZERO
-#var push_dir = Vector2.ZERO
 
 @onready var playback: AnimationNodeStateMachinePlayback =\
 $AnimationTree.get("parameters/state_machine/playback")
+
+signal move()
+signal change_player(new_player)
 
 func set_facing(new_dir: Vector2):
 	if not is_node_ready(): return
@@ -27,7 +29,6 @@ func _ready():
 	$AnimationTree.set("parameters/time_scale/scale", time_scale)
 
 func _input(event):
-	if not awake: return
 	dir = Input.get_vector("left", "right", "up", "down")
 
 func _physics_process(delta):
@@ -35,6 +36,7 @@ func _physics_process(delta):
 	velocity = Parameters.PLAYER_SPEED * dir
 	move_and_slide()
 	handle_slide()
+	move.emit()
 
 func handle_slide():
 	# corrects animation when diagonal against a wall
@@ -42,5 +44,6 @@ func handle_slide():
 	var unit_motion = motion * 60 / Parameters.PLAYER_SPEED
 	$facing_blend.set("parameters/blend_position", unit_motion)
 
-func incarnate():
+func incarnate(new_player: CharacterBody2D):
 	playback.travel("fade_out")
+	change_player.emit(new_player)

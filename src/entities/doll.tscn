@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://b8ya6nybt3j0k"]
 
-[ext_resource type="Script" path="res://src/doll/doll.gd" id="1_qhfba"]
-[ext_resource type="Texture2D" uid="uid://by5wq5w7o32rn" path="res://assets/entities/player.png" id="3_hgydh"]
+[ext_resource type="Script" path="res://src/entities/doll.gd" id="1_lij58"]
+[ext_resource type="Texture2D" uid="uid://by5wq5w7o32rn" path="res://assets/entities/player.png" id="2_5li1y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y452i"]
 size = Vector2(6, 6)
@@ -172,6 +172,36 @@ nodes/time_scale/node = SubResource("AnimationNodeTimeScale_ib8wu")
 nodes/time_scale/position = Vector2(560, 40)
 node_connections = [&"output", 0, &"time_scale", &"time_scale", 0, &"state_machine"]
 
+[sub_resource type="Animation" id="Animation_3fei8"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite_sheet:frame_coords:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [12, 16]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"attack"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_207rv"]
 resource_name = "move"
 loop_mode = 1
@@ -217,6 +247,22 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_n25x3"]
+resource_name = "sleep"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite_sheet:frame_coords:x")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [11]
+}
+
 [sub_resource type="Animation" id="Animation_srvtt"]
 resource_name = "wake_up"
 tracks/0/type = "value"
@@ -244,52 +290,6 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_n25x3"]
-resource_name = "sleep"
-length = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite_sheet:frame_coords:x")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [11]
-}
-
-[sub_resource type="Animation" id="Animation_3fei8"]
-resource_name = "attack"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite_sheet:frame_coords:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [12, 16]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [false],
-"method": &"attack"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f7gal"]
 _data = {
 "attack": SubResource("Animation_3fei8"),
@@ -299,8 +299,8 @@ _data = {
 "wake_up": SubResource("Animation_srvtt")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4qx2l"]
-size = Vector2(6, 6)
+[sub_resource type="CircleShape2D" id="CircleShape2D_b2rpt"]
+radius = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8ehq"]
 size = Vector2(5.97648, 8)
@@ -312,7 +312,7 @@ scale = Vector2(1.00394, 1)
 collision_layer = 4
 collision_mask = 5
 motion_mode = 1
-script = ExtResource("1_qhfba")
+script = ExtResource("1_lij58")
 metadata/_edit_group_ = true
 
 [node name="collision_shape" type="CollisionShape2D" parent="."]
@@ -344,10 +344,10 @@ libraries = {
 
 [node name="sprite_sheet" type="Sprite2D" parent="."]
 position = Vector2(0, -5)
-texture = ExtResource("3_hgydh")
+texture = ExtResource("2_5li1y")
 hframes = 16
 vframes = 4
-frame = 16
+frame = 18
 
 [node name="ghost_area" type="Area2D" parent="."]
 collision_layer = 0
@@ -355,7 +355,7 @@ collision_mask = 8
 
 [node name="ghost_collision" type="CollisionShape2D" parent="ghost_area"]
 scale = Vector2(1.00665, 1)
-shape = SubResource("RectangleShape2D_4qx2l")
+shape = SubResource("CircleShape2D_b2rpt")
 
 [node name="project_cooldown" type="Timer" parent="."]
 one_shot = true

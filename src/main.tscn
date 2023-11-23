@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://waalswyug56e"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_lc4qx"]
+[ext_resource type="PackedScene" uid="uid://dbykqysojy4io" path="res://src/rooms/start.tscn" id="2_4uujy"]
+[ext_resource type="PackedScene" uid="uid://5fvwaji5opyf" path="res://src/rooms/one_way_project.tscn" id="2_qwa3f"]
+[ext_resource type="PackedScene" uid="uid://deo8noifmci0s" path="res://src/rooms/dead_end.tscn" id="4_564wk"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_lc4qx")
+rooms = Array[PackedScene]([ExtResource("2_4uujy"), ExtResource("2_qwa3f"), ExtResource("4_564wk")])
+map = {
+Vector2i(0, 0): ExtResource("2_4uujy"),
+Vector2i(1, 0): ExtResource("2_qwa3f"),
+Vector2i(2, 0): ExtResource("4_564wk")
+}
+
+[node name="room_container" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="."]

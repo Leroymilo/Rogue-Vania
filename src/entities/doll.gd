@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const Ghost = preload("res://ghost.tscn")
+const Ghost = preload("res://src/entities/ghost.tscn")
 
 const dirs: Array[Vector2] = [
 	Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT
@@ -11,8 +11,12 @@ const dirs: Array[Vector2] = [
 var dir = Vector2.ZERO
 var push_dir = Vector2.ZERO
 
+@onready var root: Node = get_tree().root.get_node("/root/main")
 @onready var playback: AnimationNodeStateMachinePlayback =\
 $AnimationTree.get("parameters/state_machine/playback")
+
+signal move()
+signal change_player(new_player)
 
 func set_facing(new_dir: Vector2):
 	if not is_node_ready(): return
@@ -35,27 +39,25 @@ func _ready():
 		playback.start("sleep")
 
 func _input(event):
-	if not awake or attacking: return
+	dir = Input.get_vector("left", "right", "up", "down")
 	
-	dir = Vector2.ZERO
+	if not awake: return
 	
 	if event.is_action_pressed("project"):
 		project()
 	
 	elif event.is_action_pressed("attack"):
 		attack(true)
-	
-	else:
-		dir = Input.get_vector("left", "right", "up", "down")
 
 func project():
 	# astral projection
 	playback.travel("rest")
 	$project_cooldown.start()
 	var ghost = Ghost.instantiate()
-	get_parent().add_child(ghost)
+	root.add_child(ghost)
 	ghost.position = self.position
 	ghost.set_facing(self.facing)
+	change_player.emit(ghost)
 
 func attack(active: bool = false):
 	if active:
@@ -76,6 +78,7 @@ func attack(active: bool = false):
 
 func _physics_process(delta):
 	if not awake or attacking: return
+	var prev_pos = global_position
 	
 	# snap to pushed object
 	if dir.dot(push_dir) > 0:
@@ -85,6 +88,9 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_push()
 	handle_slide()
+	
+	if global_position != prev_pos:
+		move.emit()
 
 func handle_slide():
 	var unit_motion
@@ -119,5 +125,5 @@ func _on_ghost_area_body_entered(body: Node2D):
 	if not $project_cooldown.is_stopped(): return
 	
 	if body.has_method("incarnate"):
-		body.incarnate()
+		body.incarnate(self)
 		playback.travel("wake_up")

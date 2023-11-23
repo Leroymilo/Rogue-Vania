@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://5fvwaji5opyf"]
+
+[ext_resource type="PackedScene" uid="uid://c7s4l0a3fhvnk" path="res://src/rooms/base_room.tscn" id="1_vnkv8"]
+[ext_resource type="PackedScene" uid="uid://dcfa4thdpxrwl" path="res://src/generation/room_traversal.tscn" id="2_6sbob"]
+[ext_resource type="PackedScene" uid="uid://b8ya6nybt3j0k" path="res://src/entities/doll.tscn" id="4_sulws"]
+
+[node name="room" instance=ExtResource("1_vnkv8")]
+
+[node name="TileMap" parent="." index="0"]
+layer_1/tile_data = PackedInt32Array(0, 196610, 1, 65536, 65538, 1, 131072, 65538, 1, 1, 196610, 3, 2, 196610, 3, 3, 196610, 3, 4, 196610, 3, 5, 196610, 3, 6, 196610, 3, 8, 196610, 3, 9, 196610, 3, 10, 196610, 3, 11, 196610, 3, 12, 196610, 3, 13, 196610, 3, 14, 2, 4, 65550, 65538, 1, 524288, 262146, 0, 524289, 196610, 3, 524290, 196610, 3, 524291, 196610, 3, 524292, 196610, 3, 524293, 196610, 3, 524294, 196610, 3, 524296, 196610, 3, 524297, 196610, 3, 524298, 196610, 3, 524299, 196610, 3, 524300, 196610, 3, 524301, 196610, 3, 524302, 65538, 3, 458766, 65538, 1, 393230, 65538, 1, 131086, 65538, 1, 196622, 65538, 0, 327694, 2, 1, 196608, 65538, 0, 327680, 2, 1, 393216, 65538, 1, 458752, 65538, 1, 7, 196610, 5, 524295, 327682, 3, 458759, 65539, 1, 393223, 65539, 1, 327687, 65539, 1, 262151, 65539, 1, 196615, 65539, 1, 131079, 65539, 1, 65543, 65539, 1)
+
+[node name="room_traversal" parent="room_graph" index="1" instance=ExtResource("2_6sbob")]
+start = Vector2i(-1, 0)
+end = Vector2i(1, 0)
+req_pow = 2
+
+[node name="Doll" parent="puppets" index="0" instance=ExtResource("4_sulws")]
+position = Vector2(211, 19)
+awake = false

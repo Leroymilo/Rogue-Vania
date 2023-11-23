@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cxo5q5m2c1r3p"]
 
 [ext_resource type="TileSet" uid="uid://biv637c8fnftl" path="res://assets/tilesets/ruins/ruins_tileset.tres" id="1_h4072"]
-[ext_resource type="PackedScene" uid="uid://b8ya6nybt3j0k" path="res://src/doll/doll.tscn" id="2_vta86"]
-[ext_resource type="PackedScene" uid="uid://bq6f8f420fc78" path="res://statue.tscn" id="3_su1r0"]
+[ext_resource type="PackedScene" uid="uid://b8ya6nybt3j0k" path="res://src/entities/doll.tscn" id="2_vta86"]
+[ext_resource type="PackedScene" uid="uid://bq6f8f420fc78" path="res://src/entities/statue.tscn" id="3_su1r0"]
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
